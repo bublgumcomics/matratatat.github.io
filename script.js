@@ -24,13 +24,15 @@ document.querySelectorAll('.close-button').forEach(btn => {
   });
 });
 
-// Drag functionality
+// Drag functionality for desktop & mobile
 let isDragging = false;
 let offsetX = 0;
 let offsetY = 0;
 let currentWindow = null;
 
 document.querySelectorAll('.popup-header').forEach(header => {
+
+  // --- Desktop dragging ---
   header.addEventListener('mousedown', (e) => {
     currentWindow = header.parentElement;
     isDragging = true;
@@ -39,15 +41,41 @@ document.querySelectorAll('.popup-header').forEach(header => {
     offsetY = e.clientY - rect.top;
     header.style.cursor = 'grabbing';
   });
+
+  // --- Mobile dragging ---
+  header.addEventListener('touchstart', (e) => {
+    currentWindow = header.parentElement;
+    isDragging = true;
+    const rect = currentWindow.getBoundingClientRect();
+    const touch = e.touches[0];
+    offsetX = touch.clientX - rect.left;
+    offsetY = touch.clientY - rect.top;
+  });
+
+  header.addEventListener('touchmove', (e) => {
+    if (!isDragging || !currentWindow) return;
+    const touch = e.touches[0];
+    currentWindow.style.left = `${touch.clientX - offsetX}px`;
+    currentWindow.style.top = `${touch.clientY - offsetY}px`;
+    currentWindow.style.transform = 'none'; // remove centering
+    e.preventDefault(); // prevents scrolling while dragging
+  });
+
+  header.addEventListener('touchend', () => {
+    isDragging = false;
+    currentWindow = null;
+  });
 });
 
-document.addEventListener('mousemove', e => {
+// --- Desktop mouse move ---
+document.addEventListener('mousemove', (e) => {
   if (!isDragging || !currentWindow) return;
   currentWindow.style.left = `${e.clientX - offsetX}px`;
   currentWindow.style.top = `${e.clientY - offsetY}px`;
-  currentWindow.style.transform = 'none'; // remove centering transform while dragging
+  currentWindow.style.transform = 'none';
 });
 
+// --- Desktop mouse up ---
 document.addEventListener('mouseup', () => {
   isDragging = false;
   if (currentWindow) {

@@ -160,3 +160,47 @@ body {
     overflow-x: scroll;
   }
 }
+
+@media (max-width: 600px) {
+
+  .center-button {
+    width: 90%; /* instead of 40% */
+    max-width: 95%; /* optional, prevent too wide on larger screens */
+  }
+
+  .popup-window {
+    width: 90%; /* instead of 40% */
+    max-width: 95%; /* optional, prevent too wide on larger screens */
+  }
+
+  .popup-content {
+    padding: 15px; /* optional: adjust padding for small screens */
+  }
+}
+/*mobile shit done*/
+
+.popup-content form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.popup-content input,
+.popup-content textarea {
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.popup-content button {
+  background-color: #ff7db4;
+  border: none;
+  color: white;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.popup-content button:hover {
+  background-color: #ff4c9e;
+}
